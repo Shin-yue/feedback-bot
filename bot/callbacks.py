@@ -120,14 +120,14 @@ async def handle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         
     message = cast(Message, update.effective_message)        
     user = cast(User, update.effective_user)
+    chat = cast(Chat, update.effective_chat)  
+    bot = cast(Bot, context.bot)
     if await Database().user_is_banned(user.id):
         return 
     
     user = await bot.get_chat(user.id) 
     
     if message:  
-        chat = cast(Chat, update.effective_chat)  
-        bot = cast(Bot, context.bot)
         fw = await bot.forward_message(
             chat_id=int(os.environ.get("ADMINS")),
             from_chat_id=chat.id,
